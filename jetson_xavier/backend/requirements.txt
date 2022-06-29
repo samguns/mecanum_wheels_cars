@@ -1,0 +1,4 @@
+fastapi==0.118.1
+python-socketio==5.14.2
+uvicorn==0.37.0
+python-can==4.6.1

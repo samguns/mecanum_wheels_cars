@@ -1,0 +1,27 @@
+services:
+  mecanum_wheel_car:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mecanum_wheel_car
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    # tty: true
+    # volumes:
+    #   - ..:/app
+    # working_dir: /app
+
+  webui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-webUI
+    container_name: mecanum_wheel_ui
+    network_mode: host
+    restart: unless-stopped
+    # tty: true
+    # volumes:
+    #   - ./webUI:/app
+    # working_dir: /app
