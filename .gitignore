@@ -2,4 +2,15 @@
 .vscode
 .idea
 CMakeListsPrivate.txt
-cmake-build-*/ 
+cmake-build-*/
+build/
+bin/
+obj/
+out/
+*.o
+*.a
+*.so
+*.exe
+*.dll
+*.log
+.env*
