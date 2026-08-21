@@ -1,0 +1,63 @@
+# Shared wire fixtures for the V13 structured serial protocol.
+# Authoritative contract: specs/003-v13-configurator/contracts/serial-protocol.md
+#
+# Lines beginning with '#' that are NOT '#V13 ' are comments in this file only.
+# Sections are delimited by '=== NAME ===' markers and consumed by the parser tests.
+
+=== VALID RECORDS ===
+#V13 v=1 t=id fw=002 proto=1 canid=0x201 motors=2 cfgver=2 uptime_ms=41234
+#V13 v=1 t=cal m=1 aligned=1 charac=1 pp=7 dir=1 offset=2.094395 r=0.084000 ld=0.000125 lq=0.000131 valid=1
+#V13 v=1 t=cal m=2 aligned=1 charac=0 pp=7 dir=-1 offset=0.523599 r=0.091000 ld=0.000119 lq=0.000127 valid=0
+#V13 v=1 t=cfg canid=0x201 bw_req=2500 bw_act=1000 bw_clamped=1 rate=10000 carrier=20000 decim=2 mode1=0 mode2=0 busmin_mv=7000 busmax_mv=24000 calibrated=0
+#V13 v=1 t=motor m=1 armed=0 mode=0 pos_mrad=628319 vel=0.012 iq=0.214 timeout=0 limits=0 limitcount=0 pairfault=0
+#V13 v=1 t=motor m=2 armed=1 mode=1 pos_mrad=-628319 vel=-1.250 iq=0.000 timeout=1 limits=5 limitcount=3 pairfault=1
+#V13 v=1 t=imp m=1 pdes_mrad=3142 vdes=0.000 kp=12.000 kd=0.300 tff=0.0000 perr=0.00359 tq=0.0431 applied_mrad=3142 capgen=4 seq=42 pairfault=0 eligible=1 hold=1
+#V13 v=1 t=imp m=2 pdes_mrad=0 vdes=0.000 kp=0.000 kd=0.000 tff=0.0000 perr=0.00000 tq=0.0000 applied_mrad=0 capgen=0 seq=-1 pairfault=1 eligible=0 hold=0
+#V13 v=1 t=timing rate_nom=10000 rate_meas=9998 period_us=100.00 cycles=5991234 overruns=0 consec=0 last_us=71 worst_us=88 duty=71.0 fault=none
+#V13 v=1 t=bus mv=12040 protect=0
+#V13 v=1 t=ack tag=7 cmd=CY ok=1 reason=
+#V13 v=1 t=ack tag=8 cmd=B2500 ok=0 reason=disarm%20both%20motors%20first%20%28D0%29
+#V13 v=1 t=ack tag=0 cmd=ABORT ok=1 reason=
+#V13 v=1 t=calprog m=1 stage=align pct=42 energised=1
+#V13 v=1 t=calprog m=1 stage=charac pct=100 energised=0
+#V13 v=1 t=calpend m=1 stage=align pp=7 dir=1 offset=2.094395
+#V13 v=1 t=calpend m=1 stage=charac r=0.084000 ld=0.000125 lq=0.000131
+#V13 v=1 t=fault kind=calibration reason=over-current%20abort cooldown_ms=28500
+
+=== UNKNOWN KEY TOLERATED ===
+#V13 v=1 t=bus mv=12040 protect=0 future_field=42
+
+=== MUST BE IGNORED: FIRMWARE PROSE ===
+CAL PENDING ALIGN M1
+CAL selected motor
+1
+CAL ERROR: over-current abort
+CAL COOLDOWN: 30 seconds
+CAL MODE: NORMAL (disarmed)
+CAL LIMITS: 4.0V, 1.0A working, 1.5A abort
+  pole pairs: 7
+  phase resistance [ohm]: 0.084000
+  inductance D [H]: 0.000125
+BW requested [Hz]: 2500
+BW active    [Hz]: 1000   (CLAMPED: sustainable rate ceiling)
+BW REFUSED: disarm both motors first (D0)
+control rate nominal [Hz]: 10000
+cycles: 5991234   overruns: 0   consecutive: 0
+Motors ready and disarmed. Current CAN ID: 0x201
+TWAI driver installed
+M1 COMMAND TIMEOUT: zero effort, still armed
+
+=== MUST BE REJECTED: UNSUPPORTED VERSION ===
+#V13 v=2 t=bus mv=12040 protect=0
+#V13 v=0 t=bus mv=12040 protect=0
+#V13 v=abc t=bus mv=12040 protect=0
+
+=== MUST BE REJECTED: MALFORMED ===
+#V13
+#V13 v=1
+#V13 v=1 t=
+#V13 t=bus v=1 mv=12040
+#V13 v=1 t=bus mv
+#V13 v=1 t=bus mv=12040 mv=99999
+#V13 v=1 t=bus mv=notanumber
+#V13 v=1 t=unknown_record_type mv=1

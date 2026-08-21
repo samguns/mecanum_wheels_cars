@@ -26,7 +26,7 @@
 - `CY` and `CN` are rejected unless there is a valid pending result.
 - Existing normal-operation arm (`A*`), disarm (`D*`), and motor-control (`a ...`, `b ...`) commands are rejected in calibration mode, except that disarm remains idempotently safe.
 - Any syntax error, invalid state, or unavailable hardware produces an error response with the next permitted action.
-- Calibration requests are rejected only while the 30-second cooldown is active after an over-current or characterization failure.
+- After a failure, calibration returns to idle and permits an immediate operator-initiated retry.
 
 ## CAN Boundary
 
@@ -37,4 +37,4 @@
 
 ## Result Reporting
 
-Successful alignment reports motor number, pole pairs, sensor direction, and electrical offset. Successful characterization reports motor number, resistance, D/Q inductance, requested/effective bandwidth, current-loop PI gains, and low-pass filter time constants. Results are labeled `PENDING` until `CY` confirms persistence. Every calibration response reports voltage/current limits, timeout/cooldown state, and any abort reason.
+Successful alignment reports motor number, pole pairs, sensor direction, and electrical offset. Successful characterization reports motor number, resistance, D/Q inductance, requested/effective bandwidth, current-loop PI gains, and low-pass filter time constants. Results are labeled `PENDING` until `CY` confirms persistence. Every calibration response reports voltage/current limits, timeout state, and any abort reason.

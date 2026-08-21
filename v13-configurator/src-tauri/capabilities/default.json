@@ -1,0 +1,21 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window. Serial permissions are listed individually rather than using the blanket serialplugin:default, so the app cannot silently gain a capability it was never reviewed for.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:event:default",
+    "serialplugin:allow-available-ports",
+    "serialplugin:allow-open",
+    "serialplugin:allow-close",
+    "serialplugin:allow-close-all",
+    "serialplugin:allow-read",
+    "serialplugin:allow-write",
+    "serialplugin:allow-write-binary",
+    "serialplugin:allow-cancel-read",
+    "serialplugin:allow-set-baud-rate",
+    "serialplugin:allow-write-dtr",
+    "serialplugin:allow-write-rts"
+  ]
+}

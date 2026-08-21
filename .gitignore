@@ -14,3 +14,15 @@ out/
 *.dll
 *.log
 .env*
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+__pycache__
+
+# v13-configurator desktop app (Node + Rust build outputs)
+v13-configurator/node_modules/
+v13-configurator/dist/
+v13-configurator/src-tauri/target/
+v13-configurator/src-tauri/gen/
+*.rs.bk

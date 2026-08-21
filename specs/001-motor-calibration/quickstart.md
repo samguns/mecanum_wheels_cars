@@ -24,7 +24,7 @@
 4. Send `CM`. Verify it is accepted only after the alignment confirmation.
 5. Keep the motor shaft still during measurement. Review the pending resistance, inductances, and calculated tuning.
 6. Send `CY` only if results are plausible; otherwise send `CN` and retry after correcting wiring or test conditions.
-7. Verify that alignment stops within 30 seconds and characterization within 15 seconds. After an over-current or characterization failure, verify a 30-second serial-reported cooldown before retry.
+7. Verify that alignment stops within 30 seconds and characterization within 15 seconds. After an over-current or characterization failure, verify both motors disarm and a new calibration attempt can start immediately.
 
 ## Motor 2 workflow and normal-mode admission
 
@@ -38,7 +38,7 @@
 - Request `CM` before `CA`/`CY`: expected prerequisite rejection.
 - Cancel each operation with `CX`: expected disarm and no pending data saved.
 - Reset or send emergency stop during each operation: expected no partial record becomes confirmed.
-- Simulate or safely inject an over-current indication at 1.5 A: expected immediate zero-target/disarm, no persistence, 30-second cooldown, and a serial-only error report.
+- Simulate or safely inject an over-current indication at 1.5 A: expected immediate zero-target/disarm, no persistence, immediate retry availability, and a serial-only error report.
 - Force one record invalid: expected the next boot returns to calibration mode and rejects normal motion.
 - Verify that an existing normal CAN velocity frame works only after both records are valid and normal mode is active.
 

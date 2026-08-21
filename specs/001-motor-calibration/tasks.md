@@ -23,7 +23,7 @@
 
 - [X] T003 Replace the single calibration fields with a versioned, per-motor `RobotConfig` calibration record and bounded validation helpers in `v13_macnum_wheel_car.ino`.
 - [X] T004 Add safe configuration migration/reset logic that preserves only a valid CAN ID and defaults all unknown/incomplete calibration records to disarmed calibration mode in `v13_macnum_wheel_car.ino`.
-- [X] T005 Add a calibration-mode/session state machine, centralized zero-target/disarm transitions, emergency-stop cancellation, and 30-second failed-test cooldown in `v13_macnum_wheel_car.ino`.
+- [X] T005 Add a calibration-mode/session state machine, centralized zero-target/disarm transitions, emergency-stop cancellation, and immediate retry after a failed test in `v13_macnum_wheel_car.ino`.
 - [X] T006 Refactor startup configuration in `v13_macnum_wheel_car.ino` so valid per-motor settings are applied before normal FOC initialization and invalid settings never admit normal operation.
 - [X] T007 Add the base serial calibration command dispatcher and state/status reporting defined in `specs/001-motor-calibration/contracts/serial-calibration.md` to `v13_macnum_wheel_car.ino`.
 - [X] T008 Gate existing serial motor/arm commands and normal CAN velocity/enable frames by calibration mode while preserving immediate CAN emergency stop in `v13_macnum_wheel_car.ino`.
@@ -71,7 +71,7 @@
 - [X] T017 [US3] Invoke the verified SimpleFOC resistance/D-Q inductance characterization path only when it enforces live current protection; otherwise implement or select a guarded alternative that aborts at 1.5 A in `v13_macnum_wheel_car.ino`.
 - [X] T018 [US3] Enforce the 4.0 V excitation cap, 1.0 A working-current limit, 1.5 A measured-current abort, 15-second characterization timeout, and then validate resistance/inductance and derive bounded current-loop PI/LPF settings in `v13_macnum_wheel_car.ino`.
 - [X] T019 [US3] Present characterization and tuning as pending data; confirm atomically into the selected `RobotConfig` record and recompute global readiness in `v13_macnum_wheel_car.ino`.
-- [ ] T020 [US3] Add and execute prerequisite, stationary-characterization, 1.5 A abort, timeout, cooldown, out-of-range, cancel, reset, and emergency-stop validation scenarios in `specs/001-motor-calibration/quickstart.md`.
+- [ ] T020 [US3] Add and execute prerequisite, stationary-characterization, 1.5 A abort, timeout, immediate-retry, out-of-range, cancel, reset, and emergency-stop validation scenarios in `specs/001-motor-calibration/quickstart.md`.
 
 **Checkpoint**: A confirmed motor record contains valid alignment, characteristics, and current-loop tuning; an invalid result cannot become active.
 

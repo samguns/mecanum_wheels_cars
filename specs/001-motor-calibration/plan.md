@@ -22,7 +22,7 @@ Add a firmware-owned, serial-operated calibration mode for the two motor control
 
 **Performance Goals**: Preserve the existing FOC task cadence and CAN status cadence; serial status must make each calibration state change observable without blocking normal emergency-stop handling.
 
-**Constraints**: Both motors must be disarmed outside an intentionally bounded calibration excitation; excitation is capped at 4.0 V, working current at 1.0 A, and measured current abort at 1.5 A; alignment times out at 30 seconds, characterization at 15 seconds, and failed/over-current attempts impose a 30-second cooldown before retry; no normal velocity target may be accepted in calibration mode; CAN velocity frame layout and scaling remain unchanged; any partial, invalid, cancelled, or interrupted calibration must fail closed.
+**Constraints**: Both motors must be disarmed outside an intentionally bounded calibration excitation; excitation is capped at 4.0 V, working current at 1.0 A, and measured current abort at 1.5 A; alignment times out at 30 seconds and characterization at 15 seconds; failed/over-current attempts disarm both motors and may be retried immediately; no normal velocity target may be accepted in calibration mode; CAN velocity frame layout and scaling remain unchanged; any partial, invalid, cancelled, or interrupted calibration must fail closed.
 
 **Scale/Scope**: One firmware node controlling two independent motors. Initial operator interface is the existing serial Commander; no backend/UI change is required.
 

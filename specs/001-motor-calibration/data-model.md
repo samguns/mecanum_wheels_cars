@@ -38,7 +38,6 @@ This is RAM-only and is never restored after reset.
 | `operation` | idle, alignment, characterization, pending confirmation, failed, cancelled | Calibration transitions always disarm on exit or failure. |
 | `pending_record` | candidate motor record | May be displayed and confirmed, but is never applied to persistent configuration until confirmation. |
 | `failure_reason` | diagnostic enum/text | Set on prerequisite, hardware, validation, cancellation, or estop failure. |
-| `cooldown_until` | monotonic time | Set to 30 seconds after over-current or characterization failure. |
 
 ## Calibration Safety Envelope
 
@@ -46,10 +45,9 @@ This is RAM-only and is never restored after reset.
 |-------|-------|-------------|
 | Excitation voltage | ≤ 4.0 V | Validate before every alignment or characterization excitation. |
 | Working current | ≤ 1.0 A | Configure the calibration path not to intentionally exceed this current. |
-| Current abort | ≥ 1.5 A | Immediately zero targets, disable both drivers, discard pending data, and start cooldown. |
+| Current abort | ≥ 1.5 A | Immediately zero targets, disable both drivers, and discard pending data. |
 | Alignment duration | ≤ 30 seconds | Timeout fails closed. |
 | Characterization duration | ≤ 15 seconds | Timeout fails closed. |
-| Failed-test cooldown | 30 seconds | Applies after over-current or characterization failure. |
 
 ## State Transitions
 
@@ -64,9 +62,8 @@ ALIGNMENT-RUNNING -- valid result ----> ALIGNMENT-PENDING -- confirm --> CALIBRA
 ALIGNMENT-RUNNING -- fail/cancel/estop -> CALIBRATION-IDLE / disarmed
 CALIBRATION-IDLE -- characterize(motor with confirmed alignment) --> CHARACTERIZATION-RUNNING
 CHARACTERIZATION-RUNNING -- valid result --> CHARACTERISTICS-PENDING -- confirm --> CALIBRATION-IDLE
-CHARACTERIZATION-RUNNING -- over-current/fail --> COOLDOWN / disarmed
+CHARACTERIZATION-RUNNING -- over-current/fail --> CALIBRATION-IDLE / disarmed
 CHARACTERIZATION-RUNNING -- cancel/estop --> CALIBRATION-IDLE / disarmed
-COOLDOWN -- 30 seconds elapsed --> CALIBRATION-IDLE
 CALIBRATION-IDLE -- both records valid --> NORMAL / both disarmed
 ```
 
